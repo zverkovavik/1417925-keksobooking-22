@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг»
 
-* Студент: [Виктория Зверькова](https://up.htmlacademy.ru/javascript/22/user/1417925).
-* Наставник: `Неизвестно`.
+- Студент: [Виктория Зверькова](https://up.htmlacademy.ru/javascript/22/user/1417925).
+- Наставник: [Евгений Фаллер](https://htmlacademy.ru/profile/id505933).
 
 ---
 
