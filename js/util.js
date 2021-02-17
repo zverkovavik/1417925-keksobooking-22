@@ -32,8 +32,8 @@ const shuffle = (array) => {
 
 const getRandomArray = (elements) => {
   const shuffledArray = shuffle(elements.slice());
-  shuffledArray.length = getRandomInteger(1, elements.length - 1);
-  return shuffledArray.join(', ');
+  shuffledArray.length = getRandomInteger(1, elements.length);
+  return shuffledArray;
 };
 
 export { getRandomInteger, getRandomFloat, getRandomArrayElement, getRandomArray };

@@ -66,4 +66,9 @@ const createApartment = () => {
   }
 };
 
-new Array(APARTMENT_COUNT).fill('').map(() => createApartment());
+const createApartments = () => {
+  return new Array(APARTMENT_COUNT).fill('').map(() => createApartment());
+};
+
+export { createApartments };
+
