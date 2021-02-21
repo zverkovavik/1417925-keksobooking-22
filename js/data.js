@@ -1,4 +1,4 @@
-import { getRandomInteger, getRandomFloat, getRandomArrayElement, getRandomArray } from './util.js';
+import { getRandomInteger, getRandomFloat, getRandomArrayElement, getRandomArray } from './utils.js';
 
 const PROPOSAL_TITLES = [
   'Ты нашел апартаменты мечты',

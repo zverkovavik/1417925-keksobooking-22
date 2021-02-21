@@ -8,11 +8,10 @@ const BuildingTypes = {
 }
 
 const similarApartments = createApartments();
-const similarListFragment = document.createDocumentFragment();
-const cardTemplate = document.querySelector('#card').content;
-const mapCanvas = document.querySelector('#map-canvas');
 
 const createApartmentAd = ( {author: {avatar}, offer: { title, address, price, type, guests, rooms, checkin, checkout, features, photos, description }}) => {
+  const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
+  const similarListFragment = document.createDocumentFragment();
   const cardElement = cardTemplate.cloneNode(true);
   cardElement.querySelector('.popup__title').textContent = title;
   cardElement.querySelector('.popup__text--address').textContent = address;
@@ -31,11 +30,9 @@ const createApartmentAd = ( {author: {avatar}, offer: { title, address, price, t
     let newPhotoPlace = popupPhotos.appendChild(img);
     newPhotoPlace.src = photos[i];
   }
-
   cardElement.querySelector('.popup__avatar').src = avatar;
   similarListFragment.appendChild(cardElement);
+  return similarListFragment;
 };
 
-createApartmentAd(similarApartments[0]);
-mapCanvas.appendChild(similarListFragment);
-
+export { similarApartments, createApartmentAd }; /* экспортируем массив из 10 объектов с данными об апартаментах и функцию, которая строит фрагмент (баллун) на основании этих объектов*/
