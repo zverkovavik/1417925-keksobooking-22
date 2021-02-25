@@ -35,3 +35,40 @@ const goActive = () => {
 
 export { goActive };
 // подумать над оптимизацией
+
+const housingType = document.querySelector('#type');
+const apartmentPrice = document.querySelector('#price');
+
+housingType.addEventListener('change', () => {
+  switch (housingType.value) {
+    case 'bungalow':
+      apartmentPrice.setAttribute('min', '0');
+      apartmentPrice.setAttribute('placeholder', '0');
+      break;
+    case 'flat':
+      apartmentPrice.setAttribute('min', '1000');
+      apartmentPrice.setAttribute('placeholder', '1000');
+      break;
+    case 'house':
+      apartmentPrice.setAttribute('min', '5000');
+      apartmentPrice.setAttribute('placeholder', '5000');
+      break;
+    case 'palace':
+      apartmentPrice.setAttribute('min', '10000');
+      apartmentPrice.setAttribute('placeholder', '10000');
+      break;
+  }
+});
+const timeForm = document.querySelector('.ad-form__element--time');
+const checkInTime = document.querySelector('#timein');
+const checkOutTime = document.querySelector('#timeout');
+
+timeForm.addEventListener('change', (evt) => {
+  checkInTime.value = evt.target.value;
+  checkOutTime.value = evt.target.value;
+});
+
+//  для следующего задания
+// const roomQuantity = document.querySelector('#room_number');
+// const guestsQuantity = document.querySelector('#capacity');
+
