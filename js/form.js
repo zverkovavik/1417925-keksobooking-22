@@ -68,7 +68,6 @@ timeForm.addEventListener('change', (evt) => {
   checkOutTime.value = evt.target.value;
 });
 
-
 const titleAd = document.querySelector('#title');
 titleAd.addEventListener('input', () => {
   if (titleAd.validity.tooLong) {
