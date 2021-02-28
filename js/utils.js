@@ -1,39 +1,28 @@
-const getRandomInteger = (min, max) => {
+const ALERT_SHOW_TIME = 5000;
 
-  min = Math.ceil(min);
-  max = Math.floor(max);
+const showAlert = (message) => {
+  const alertContainer = document.createElement('div');
+  alertContainer.style.zIndex = 100;
+  alertContainer.style.position = 'absolute';
+  alertContainer.style.left = 0;
+  alertContainer.style.top = 0;
+  alertContainer.style.right = 0;
+  alertContainer.style.padding = '10px 3px';
+  alertContainer.style.fontSize = '30px';
+  alertContainer.style.textAlign = 'center';
+  alertContainer.style.backgroundColor = 'white';
 
-  if (min > max || min < 0 || min === max || max < 0) {
-    throw 'Задан неверный диапазон';
-  }
-  return Math.floor(Math.random() * (max - min + 1)) + min;
+  alertContainer.textContent = message;
+
+  document.body.append(alertContainer);
+
+  setTimeout(() => {
+    alertContainer.remove();
+  }, ALERT_SHOW_TIME);
+}
+
+const isEscEvent = (evt) => {
+  return evt.key === ('Escape' || 'Esc');
 };
 
-const getRandomFloat = (min, max, numbersAfterFloat = 5) => {
-  if (min > max || min < 0 || min === max || max < 0 || numbersAfterFloat > 20) {
-    throw 'Задан неверный диапазон';
-  }
-  let randomFloat = Math.random() * (max - min + 1) + min;
-  return Number(randomFloat.toFixed(numbersAfterFloat));
-};
-
-const getRandomArrayElement = (elements) => {
-  return elements[getRandomInteger(0, elements.length - 1)];
-};
-
-// алгоритм тасования Фишера-Йетса
-const shuffle = (array) => {
-  for (let i = array.length - 1; i > 0; i--) {
-    let j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
-  }
-  return array;
-};
-
-const getRandomArray = (elements) => {
-  const shuffledArray = shuffle(elements.slice());
-  shuffledArray.length = getRandomInteger(1, elements.length);
-  return shuffledArray;
-};
-
-export { getRandomInteger, getRandomFloat, getRandomArrayElement, getRandomArray };
+export { showAlert, isEscEvent };

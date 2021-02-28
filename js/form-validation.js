@@ -1,74 +1,46 @@
-/* Переход в неактивное состояние формы: 1. Находим все элементы, которым присвоим disabled */
-const adForm = document.querySelector('.ad-form');
-const adFormHeader = adForm.querySelector('.ad-form-header');
-const adFormElements = adForm.querySelectorAll('.ad-form__element');
-
-adForm.classList.add('ad-form--disabled');
-adFormHeader.setAttribute('disabled', 'disabled'); // возможна оптимизация через функцию, добавляющую аттрибут disabled
-for (let element of adFormElements) {
-  element.setAttribute('disabled', 'disabled');
-}
-
-/* Переход в неактивное состояние фильтров */
-const filtersForm = document.querySelector('.map__filters');
-const filterMapElements = filtersForm.querySelectorAll('.map__filter');
-const mapFeature = filtersForm.querySelector('.map__features');
-
-filtersForm.classList.add('ad-form--disabled'); // можно вынести в функцию
-mapFeature.setAttribute('disabled', 'disabled');
-for (let element of filterMapElements) {
-  element.setAttribute('disabled', 'disabled');
-}
-/* Переход в активное состояние */
-const goActive = () => {
-  adForm.classList.remove('ad-form--disabled');
-  filtersForm.classList.remove('ad-form--disabled');
-  adFormHeader.removeAttribute('disabled');
-  for (let element of adFormElements) {
-    element.removeAttribute('disabled');
-  }
-  mapFeature.removeAttribute('disabled');
-  for (let element of filterMapElements) {
-    element.removeAttribute('disabled');
-  }
-}
-
-export { goActive };
-// подумать над оптимизацией
-
+/*Валидации */
 const housingType = document.querySelector('#type');
 const apartmentPrice = document.querySelector('#price');
+const timeForm = document.querySelector('.ad-form__element--time');
+const checkInTime = document.querySelector('#timein');
+const checkOutTime = document.querySelector('#timeout');
+const titleAd = document.querySelector('#title');
+const roomNumber = document.querySelector('#room_number');
+const guestsNumber = document.querySelector('#capacity');
+const BuildingMinPrices = {
+  bungalow: '0',
+  flat: '1000',
+  house: '5000',
+  palace: '10000',
+}
+
 
 housingType.addEventListener('change', () => {
   switch (housingType.value) {
     case 'bungalow':
-      apartmentPrice.setAttribute('min', '0');
-      apartmentPrice.setAttribute('placeholder', '0');
+      apartmentPrice.setAttribute('min', BuildingMinPrices.bungalow);
+      apartmentPrice.setAttribute('placeholder', BuildingMinPrices.bungalow);
       break;
     case 'flat':
-      apartmentPrice.setAttribute('min', '1000');
-      apartmentPrice.setAttribute('placeholder', '1000');
+      apartmentPrice.setAttribute('min', BuildingMinPrices.flat);
+      apartmentPrice.setAttribute('placeholder', BuildingMinPrices.flat);
       break;
     case 'house':
-      apartmentPrice.setAttribute('min', '5000');
-      apartmentPrice.setAttribute('placeholder', '5000');
+      apartmentPrice.setAttribute('min', BuildingMinPrices.house);
+      apartmentPrice.setAttribute('placeholder', BuildingMinPrices.house);
       break;
     case 'palace':
-      apartmentPrice.setAttribute('min', '10000');
-      apartmentPrice.setAttribute('placeholder', '10000');
+      apartmentPrice.setAttribute('min', BuildingMinPrices.palace);
+      apartmentPrice.setAttribute('placeholder', BuildingMinPrices.palace);
       break;
   }
 });
-const timeForm = document.querySelector('.ad-form__element--time');
-const checkInTime = document.querySelector('#timein');
-const checkOutTime = document.querySelector('#timeout');
 
 timeForm.addEventListener('change', (evt) => {
   checkInTime.value = evt.target.value;
   checkOutTime.value = evt.target.value;
 });
 
-const titleAd = document.querySelector('#title');
 titleAd.addEventListener('input', () => {
   if (titleAd.validity.tooLong) {
     titleAd.setCustomValidity('Длина заголовка объявления не более 100 символов.');
@@ -93,8 +65,6 @@ apartmentPrice.addEventListener('input', () => {
   apartmentPrice.reportValidity();
 });
 
-const roomNumber = document.querySelector('#room_number');
-const guestsNumber = document.querySelector('#capacity');
 
 roomNumber.addEventListener('click', () => {
   if (roomNumber.value === '1') {

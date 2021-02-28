@@ -1,5 +1,3 @@
-import { createApartments } from './data.js';
-
 const BuildingTypes = {
   'flat': 'Квартира',
   'palace': 'Дворец',
@@ -7,9 +5,8 @@ const BuildingTypes = {
   'bungalow': 'Бунгало',
 }
 
-const similarApartments = createApartments();
+const createApartmentAd = ({author: {avatar}, offer: { address, checkin, checkout, description, features, guests, photos, price, rooms, title, type }}) => {
 
-const createApartmentAd = ( {author: {avatar}, offer: { title, address, price, type, guests, rooms, checkin, checkout, features, photos, description }}) => {
   const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
   const similarListFragment = document.createDocumentFragment();
   const cardElement = cardTemplate.cloneNode(true);
@@ -35,4 +32,4 @@ const createApartmentAd = ( {author: {avatar}, offer: { title, address, price, t
   return similarListFragment;
 };
 
-export { similarApartments, createApartmentAd }; /* экспортируем массив из 10 объектов с данными об апартаментах и функцию, которая строит фрагмент (баллун) на основании этих объектов*/
+export { createApartmentAd };
