@@ -1,6 +1,8 @@
 /* global L:readonly */
-import { similarApartments, createApartmentAd } from './card.js';
-import { goActive } from './form.js';
+import { createApartmentAd } from './card.js';
+import { goActive } from './form-state.js';
+import { createGetRequest } from './api.js';
+import { showAlert } from './utils.js';
 
 const map = L.map('map-canvas')
   .on('load', () => {
@@ -40,28 +42,32 @@ mainMarker.on('move', (evt) => {
   address.value = `${(chosenAddress.lat).toFixed(5)}, ${(chosenAddress.lng).toFixed(5)}`;
 });
 
-similarApartments.forEach((element) => {
-  const {location: {x, y}} = element;
-  const apartmentAddressIcon = L.icon({
-    iconUrl: '../img/pin.svg',
-    iconSize: [34, 34],
-    iconAnchor: [17, 34],
+const renderMapMarkers = (serverData) => {
+  serverData.forEach((element) => {
+    const {location: {lat, lng}} = element;
+    const apartmentAddressIcon = L.icon({
+      iconUrl: '../img/pin.svg',
+      iconSize: [34, 34],
+      iconAnchor: [17, 34],
+    });
+
+    const apartmentAddressMarker = L.marker(
+      {
+        lat: lat,
+        lng: lng,
+      },
+      { icon: apartmentAddressIcon},
+    ).addTo(map);
+
+    apartmentAddressMarker.bindPopup(
+      createApartmentAd(element),
+      {
+        keepInView: true,
+      },
+    );
   });
+}
 
-  const apartmentAddressMarker = L.marker(
-    {
-      lat: x,
-      lng: y,
-    },
-    { icon: apartmentAddressIcon},
-  ).addTo(map);
+createGetRequest(renderMapMarkers, showAlert);
 
-  apartmentAddressMarker.bindPopup(
-    createApartmentAd(element),
-    {
-      keepInView: true,
-    },
-  );
-});
-
-
+export { mainMarker };
