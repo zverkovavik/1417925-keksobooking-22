@@ -1,17 +1,22 @@
 /* global L:readonly */
 import { createApartmentAd } from './card.js';
 import { goActive } from './form-state.js';
-import { createGetRequest } from './api.js';
-import { showAlert } from './utils.js';
+
+const APARTMENT_AD_COUNT = 10;
+const DEFAULT_LATITUDE_MAIN_MARKER = 35.681700;
+const DEFAULT_LONGITUDE_MAIN_MARKER = 139.753882;
+const ZOOM = 10;
+const LATITUDE_TOKYO = 35.6894;
+const LONGITUDE_TOKYO = 139.692;
 
 const map = L.map('map-canvas')
   .on('load', () => {
     goActive();
   })
   .setView({
-    lat: 35.6894,
-    lng: 139.692,
-  }, 10);
+    lat: LATITUDE_TOKYO,
+    lng: LONGITUDE_TOKYO,
+  }, ZOOM);
 
 L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -27,8 +32,8 @@ const mainIcon = L.icon({
 
 const mainMarker = L.marker(
   {
-    lat: 35.681700,
-    lng: 139.753882,
+    lat: DEFAULT_LATITUDE_MAIN_MARKER,
+    lng: DEFAULT_LONGITUDE_MAIN_MARKER,
   },
   {
     draggable: true,
@@ -43,7 +48,7 @@ mainMarker.on('move', (evt) => {
 });
 
 const renderMapMarkers = (serverData) => {
-  serverData.forEach((element) => {
+  serverData.slice(0, APARTMENT_AD_COUNT).forEach((element) => {
     const {location: {lat, lng}} = element;
     const apartmentAddressIcon = L.icon({
       iconUrl: '../img/pin.svg',
@@ -66,8 +71,21 @@ const renderMapMarkers = (serverData) => {
       },
     );
   });
+  return serverData;
 }
 
-createGetRequest(renderMapMarkers, showAlert);
+const closePopup = () => {
+  map.closePopup();
+}
 
-export { mainMarker };
+const removeMarkers = () => {
+  map.eachLayer((layer) => {
+    if (layer.getElement) {
+      layer.remove();
+    }
+    mainMarker.addTo(map);
+  })
+}
+
+export { mainMarker, renderMapMarkers, closePopup, removeMarkers };
+
