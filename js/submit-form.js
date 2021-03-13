@@ -41,7 +41,8 @@ const closePopupByErrorButton = () => {
 
 const showPopup = (message) => {
   //проверка на наличие сообщения об ошибке/успехе в разметке
-  if (additionalDiv) {
+  if (sectionForm.contains(additionalDiv)) {
+    additionalDiv.querySelector('div').remove();
     additionalDiv.classList.remove('hidden');
   }
   document.addEventListener('keydown', onPopupEscKeydown);

@@ -5,3 +5,4 @@ import './card.js';
 import './form-state.js';
 import './form-validation.js';
 import './submit-form.js';
+import './filter.js';

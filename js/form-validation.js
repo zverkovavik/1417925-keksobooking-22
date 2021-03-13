@@ -1,4 +1,3 @@
-/*Валидации */
 const housingType = document.querySelector('#type');
 const apartmentPrice = document.querySelector('#price');
 const timeForm = document.querySelector('.ad-form__element--time');
@@ -7,29 +6,35 @@ const checkOutTime = document.querySelector('#timeout');
 const titleAd = document.querySelector('#title');
 const roomNumber = document.querySelector('#room_number');
 const guestsNumber = document.querySelector('#capacity');
+const BuildingTypes = {
+  FLAT: 'flat',
+  BUNGALOW: 'bungalow',
+  HOUSE: 'house',
+  PALACE: 'palace',
+};
+
 const BuildingMinPrices = {
   bungalow: '0',
   flat: '1000',
   house: '5000',
   palace: '10000',
-}
-
+};
 
 housingType.addEventListener('change', () => {
   switch (housingType.value) {
-    case 'bungalow':
+    case BuildingTypes.BUNGALOW:
       apartmentPrice.setAttribute('min', BuildingMinPrices.bungalow);
       apartmentPrice.setAttribute('placeholder', BuildingMinPrices.bungalow);
       break;
-    case 'flat':
+    case BuildingTypes.FLAT:
       apartmentPrice.setAttribute('min', BuildingMinPrices.flat);
       apartmentPrice.setAttribute('placeholder', BuildingMinPrices.flat);
       break;
-    case 'house':
+    case BuildingTypes.HOUSE:
       apartmentPrice.setAttribute('min', BuildingMinPrices.house);
       apartmentPrice.setAttribute('placeholder', BuildingMinPrices.house);
       break;
-    case 'palace':
+    case BuildingTypes.PALACE:
       apartmentPrice.setAttribute('min', BuildingMinPrices.palace);
       apartmentPrice.setAttribute('placeholder', BuildingMinPrices.palace);
       break;
