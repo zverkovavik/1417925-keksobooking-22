@@ -1,6 +1,6 @@
 /*Взаимодействие с формой при отправке */
 import { createPostRequest } from './api.js';
-import { mainMarker } from './map.js';
+import { resetMainPinPosition } from './map.js';
 import { isEscEvent } from './utils.js';
 
 const adForm = document.querySelector('.ad-form');
@@ -61,10 +61,7 @@ adForm.addEventListener('submit', (evt) => {
     () => {
       showPopup(successSubmitFormMessage);
       adForm.reset();
-      mainMarker.setLatLng({
-        lat: 35.68170,
-        lng: 139.75388,
-      });
+      resetMainPinPosition();
     },
     () => {
       showPopup(errorFormMessage);

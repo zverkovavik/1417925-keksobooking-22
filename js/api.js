@@ -1,4 +1,4 @@
-import {  onHouseFilterChange } from './filter.js';
+import { onFilterChange } from './filter.js';
 import { showAlert } from './utils.js';
 import { renderMapMarkers } from './map.js';
 const ERROR_GET_DATA_MESSAGE = 'Не удалось загрузить похожие объявления!';
@@ -14,7 +14,7 @@ const createGetRequest = (onSuccess, onError) => {
       }
     })
     .then((response) => onSuccess(response))
-    .then(onHouseFilterChange)
+    .then((response) => onFilterChange(response))
     .catch(() => {
       onError(ERROR_GET_DATA_MESSAGE);
     })

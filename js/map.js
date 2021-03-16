@@ -2,20 +2,22 @@
 import { createApartmentAd } from './card.js';
 import { goActive } from './form-state.js';
 
+const Coordinates = {
+  DEFAULT_LATITUDE_MAIN_MARKER: 35.681700,
+  DEFAULT_LONGITUDE_MAIN_MARKER: 139.753882,
+  LATITUDE_TOKYO: 35.6894,
+  LONGITUDE_TOKYO: 139.692,
+}
 const APARTMENT_AD_COUNT = 10;
-const DEFAULT_LATITUDE_MAIN_MARKER = 35.681700;
-const DEFAULT_LONGITUDE_MAIN_MARKER = 139.753882;
 const ZOOM = 10;
-const LATITUDE_TOKYO = 35.6894;
-const LONGITUDE_TOKYO = 139.692;
 
 const map = L.map('map-canvas')
   .on('load', () => {
     goActive();
   })
   .setView({
-    lat: LATITUDE_TOKYO,
-    lng: LONGITUDE_TOKYO,
+    lat: Coordinates.LATITUDE_TOKYO,
+    lng: Coordinates.LONGITUDE_TOKYO,
   }, ZOOM);
 
 L.tileLayer(
@@ -32,8 +34,8 @@ const mainIcon = L.icon({
 
 const mainMarker = L.marker(
   {
-    lat: DEFAULT_LATITUDE_MAIN_MARKER,
-    lng: DEFAULT_LONGITUDE_MAIN_MARKER,
+    lat: Coordinates.DEFAULT_LATITUDE_MAIN_MARKER,
+    lng: Coordinates.DEFAULT_LONGITUDE_MAIN_MARKER,
   },
   {
     draggable: true,
@@ -87,5 +89,11 @@ const removeMarkers = () => {
   })
 }
 
-export { mainMarker, renderMapMarkers, closePopup, removeMarkers };
+const resetMainPinPosition = () => {
+  mainMarker.setLatLng({
+    lat: Coordinates.DEFAULT_LATITUDE_MAIN_MARKER,
+    lng: Coordinates.DEFAULT_LONGITUDE_MAIN_MARKER,
+  });
+}
+export { resetMainPinPosition, renderMapMarkers, closePopup, removeMarkers };
 
