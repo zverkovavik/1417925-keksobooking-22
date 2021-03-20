@@ -1,7 +1,8 @@
 /*Взаимодействие с формой при отправке */
-import { createPostRequest } from './api.js';
+import { makePostRequest } from './api.js';
 import { resetMainPinPosition } from './map.js';
 import { isEscEvent } from './utils.js';
+import { synchronizeRoomAndGuestNumber, setMinimalPriceOnBuildingType } from './form-validation.js';
 
 const adForm = document.querySelector('.ad-form');
 const successSubmitFormMessage = document.querySelector('#success').content.querySelector('.success');
@@ -12,6 +13,8 @@ const sectionForm = document.querySelector('.notice');
 const popupBlock = document.createDocumentFragment();
 const additionalDiv = document.createElement('div');
 additionalDiv.classList.add('additional');
+const resetButton = document.querySelector('.ad-form__reset');
+const filterForm = document.querySelector('.map__filters');
 
 const closePopup = () => {
   additionalDiv.classList.add('hidden');
@@ -56,16 +59,25 @@ adForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
 
   const formData = new FormData(evt.target);
-  createPostRequest(
+  makePostRequest(
     formData,
     () => {
       showPopup(successSubmitFormMessage);
       adForm.reset();
+      filterForm.reset();
       resetMainPinPosition();
+      synchronizeRoomAndGuestNumber();
+      setMinimalPriceOnBuildingType();
     },
     () => {
       showPopup(errorFormMessage);
       errorButton.addEventListener('click', closePopupByErrorButton);
     });
+})
 
+resetButton.addEventListener('click', () => {
+  filterForm.reset();
+  resetMainPinPosition();
+  synchronizeRoomAndGuestNumber();
+  setMinimalPriceOnBuildingType();
 })

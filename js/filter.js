@@ -1,6 +1,6 @@
-/* global _:readonly */
 import { closePopup, removeMarkers, renderMapMarkers } from './map.js';
-const RERENDER_DELAY = 500;
+import { debounce } from './utils.js';
+
 const mapFiltersForm = document.querySelector('.map__filters');
 const housingTypeFilter = document.querySelector('#housing-type');
 const housingPriceFilter = document.querySelector('#housing-price');
@@ -12,7 +12,8 @@ const buildingTypes = [
   'palace',
   'flat',
   'house',
-  'bungalow'];
+  'bungalow',
+];
 
 const ApartmentPrice = {
   LOW: 'low',
@@ -45,6 +46,8 @@ const filterApartmentsByPrice = (response) => {
       break;
     case ApartmentPrice.HIGH:
       response = response.filter((element) => element.offer.price > ApartmentPriceLevel.HIGH);
+      break;
+    default: response;
   }
   return response;
 };
@@ -71,7 +74,7 @@ const hasAllFeatures = (element) => {
     }
   }
   return true;
-}
+};
 
 const filterApartmentsByFeatures = (response) => {
   response = response.filter((element) =>  hasAllFeatures(element))
@@ -79,7 +82,7 @@ const filterApartmentsByFeatures = (response) => {
 };
 
 const onFilterChange = (serverData) => {
-  mapFiltersForm.addEventListener('change', () => {
+  mapFiltersForm.addEventListener('change', debounce(() => {
     let response = serverData.slice(0, serverData.length);
     response = filterApartmentsByBuildingType(response);
     response = filterApartmentsByPrice(response);
@@ -88,11 +91,18 @@ const onFilterChange = (serverData) => {
     response = filterApartmentsByFeatures(response);
     closePopup();
     removeMarkers();
-    _.debounce(
-      renderMapMarkers(response),
-      RERENDER_DELAY,
-    );
+    renderMapMarkers(response);
+  }));
+  return serverData;
+};
+
+const onAdFormReset = (serverData) => {
+  mapFiltersForm.addEventListener('reset', () => {
+    const response = serverData.slice(0, serverData.length);
+    removeMarkers();
+    renderMapMarkers(response);
   })
+  return serverData;
 }
 
-export { onFilterChange };
+export { onFilterChange, onAdFormReset };

@@ -25,4 +25,14 @@ const isEscEvent = (evt) => {
   return evt.key === ('Escape' || 'Esc');
 };
 
-export { showAlert, isEscEvent };
+const debounce = (func, timeout = 500) => {
+  return (...args) => {
+    clearTimeout();
+    setTimeout(() => {
+      func.apply(this, args);
+    },
+    timeout);
+  }
+}
+
+export { showAlert, isEscEvent, debounce };

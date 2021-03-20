@@ -39,8 +39,7 @@ const createApartmentAd = ({author: {avatar}, offer: { address, checkin, checkou
     }
   }
 
-  similarListFragment.appendChild(cardElement);
-  return similarListFragment;
+  return similarListFragment.appendChild(cardElement);
 };
 
 export { createApartmentAd };
