@@ -1,23 +1,24 @@
 /* global L:readonly */
 import { createApartmentAd } from './card.js';
-import { goActive } from './form-state.js';
+import { activatePage } from './form-state.js';
 
-const Coordinates = {
+const address = document.querySelector('#address');
+const Coordinate = {
   DEFAULT_LATITUDE_MAIN_MARKER: 35.681700,
   DEFAULT_LONGITUDE_MAIN_MARKER: 139.753882,
   LATITUDE_TOKYO: 35.6894,
   LONGITUDE_TOKYO: 139.692,
-}
+};
 const APARTMENT_AD_COUNT = 10;
 const ZOOM = 10;
 
 const map = L.map('map-canvas')
   .on('load', () => {
-    goActive();
+    activatePage();
   })
   .setView({
-    lat: Coordinates.LATITUDE_TOKYO,
-    lng: Coordinates.LONGITUDE_TOKYO,
+    lat: Coordinate.LATITUDE_TOKYO,
+    lng: Coordinate.LONGITUDE_TOKYO,
   }, ZOOM);
 
 L.tileLayer(
@@ -34,8 +35,8 @@ const mainIcon = L.icon({
 
 const mainMarker = L.marker(
   {
-    lat: Coordinates.DEFAULT_LATITUDE_MAIN_MARKER,
-    lng: Coordinates.DEFAULT_LONGITUDE_MAIN_MARKER,
+    lat: Coordinate.DEFAULT_LATITUDE_MAIN_MARKER,
+    lng: Coordinate.DEFAULT_LONGITUDE_MAIN_MARKER,
   },
   {
     draggable: true,
@@ -45,7 +46,6 @@ const mainMarker = L.marker(
 
 mainMarker.on('move', (evt) => {
   let chosenAddress = evt.target.getLatLng();
-  const address = document.querySelector('#address');
   address.value = `${(chosenAddress.lat).toFixed(5)}, ${(chosenAddress.lng).toFixed(5)}`;
 });
 
@@ -91,8 +91,8 @@ const removeMarkers = () => {
 
 const resetMainPinPosition = () => {
   mainMarker.setLatLng({
-    lat: Coordinates.DEFAULT_LATITUDE_MAIN_MARKER,
-    lng: Coordinates.DEFAULT_LONGITUDE_MAIN_MARKER,
+    lat: Coordinate.DEFAULT_LATITUDE_MAIN_MARKER,
+    lng: Coordinate.DEFAULT_LONGITUDE_MAIN_MARKER,
   });
 }
 export { resetMainPinPosition, renderMapMarkers, closePopup, removeMarkers };

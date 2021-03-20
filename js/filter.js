@@ -14,16 +14,16 @@ const buildingTypes = [
   'house',
   'bungalow'];
 
-const ApartmentPrices = {
+const ApartmentPrice = {
   LOW: 'low',
   MIDDLE: 'middle',
   HIGH: 'high',
-}
+};
 
-const ApartmentPriceLevels = {
-  LOW_LEVEL: 10000,
-  HIGH_LEVEL: 50000,
-}
+const ApartmentPriceLevel = {
+  LOW: 10000,
+  HIGH: 50000,
+};
 
 const guestNumbers = ['1', '2', '0'];
 const roomNumbers = ['1', '2', '3'];
@@ -37,14 +37,14 @@ const filterApartmentsByBuildingType  = (response) => {
 
 const filterApartmentsByPrice = (response) => {
   switch (housingPriceFilter.value) {
-    case ApartmentPrices.MIDDLE:
-      response = response.filter((element) => element.offer.price >= ApartmentPriceLevels.LOW_LEVEL && element.offer.price <= ApartmentPriceLevels.HIGH_LEVEL);
+    case ApartmentPrice.MIDDLE:
+      response = response.filter((element) => element.offer.price >= ApartmentPriceLevel.LOW && element.offer.price <= ApartmentPriceLevel.HIGH);
       break;
-    case ApartmentPrices.LOW:
-      response = response.filter((element) => element.offer.price < ApartmentPriceLevels.LOW_LEVEL);
+    case ApartmentPrice.LOW:
+      response = response.filter((element) => element.offer.price < ApartmentPriceLevel.LOW);
       break;
-    case ApartmentPrices.HIGH:
-      response = response.filter((element) => element.offer.price > ApartmentPriceLevels.HIGH_LEVEL);
+    case ApartmentPrice.HIGH:
+      response = response.filter((element) => element.offer.price > ApartmentPriceLevel.HIGH);
   }
   return response;
 };
@@ -64,7 +64,7 @@ const filterApartmentsByGuestNumber = (response) => {
 };
 
 const hasAllFeatures = (element) => {
-  let chosenFeatures = Array.from(housingFeatures.querySelectorAll('input[type=checkbox]:checked'));
+  const chosenFeatures = Array.from(housingFeatures.querySelectorAll('input[type=checkbox]:checked'));
   for (let feature of chosenFeatures) {
     if (!element.offer.features.includes(feature.defaultValue)) {
       return false;
@@ -74,7 +74,7 @@ const hasAllFeatures = (element) => {
 }
 
 const filterApartmentsByFeatures = (response) => {
-  response = response.filter((element) =>  hasAllFeatures(element) === true)
+  response = response.filter((element) =>  hasAllFeatures(element))
   return response;
 };
 
