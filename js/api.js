@@ -1,10 +1,13 @@
-import {  onHouseFilterChange } from './filter.js';
+import { onFilterChange } from './filter.js';
 import { showAlert } from './utils.js';
 import { renderMapMarkers } from './map.js';
+
 const ERROR_GET_DATA_MESSAGE = 'Не удалось загрузить похожие объявления!';
+const GET_REQUEST_URL = 'https://22.javascript.pages.academy/keksobooking/data';
+const POST_REQUEST_URL = 'https://22.javascript.pages.academy/keksobooking';
 
 const createGetRequest = (onSuccess, onError) => {
-  fetch('https://22.javascript.pages.academy/keksobooking/data')
+  fetch(GET_REQUEST_URL)
     .then((response) => {
       if (response.ok) {
         return response.json();
@@ -14,7 +17,7 @@ const createGetRequest = (onSuccess, onError) => {
       }
     })
     .then((response) => onSuccess(response))
-    .then(onHouseFilterChange)
+    .then((response) => onFilterChange(response))
     .catch(() => {
       onError(ERROR_GET_DATA_MESSAGE);
     })
@@ -23,7 +26,7 @@ createGetRequest(renderMapMarkers, showAlert);
 
 const createPostRequest = (data, onSuccess, onError) => {
   fetch(
-    'https://22.javascript.pages.academy/keksobooking',
+    POST_REQUEST_URL,
     {
       method: 'POST',
       body: data,
