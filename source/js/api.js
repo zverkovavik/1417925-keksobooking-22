@@ -1,4 +1,4 @@
-import { onAdFormReset, onFilterChange } from './filter.js';
+import { onFilterFormReset, onFilterChange } from './filter.js';
 
 const ERROR_GET_DATA_MESSAGE = 'Не удалось загрузить похожие объявления!';
 const GET_REQUEST_URL = 'https://22.javascript.pages.academy/keksobooking/data';
@@ -16,7 +16,7 @@ const makeGetRequest = (onSuccess, onError) => {
     })
     .then(onSuccess)
     .then(onFilterChange)
-    .then(onAdFormReset)
+    .then(onFilterFormReset)
     .catch(() => {
       onError(ERROR_GET_DATA_MESSAGE);
     })

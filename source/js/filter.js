@@ -1,7 +1,7 @@
 import { closePopup, removeMarkers, renderMapMarkers } from './map.js';
 import { debounce } from './utils.js';
 
-const mapFiltersForm = document.querySelector('.map__filters');
+const filterForm = document.querySelector('.map__filters');
 const housingTypeFilter = document.querySelector('#housing-type');
 const housingPriceFilter = document.querySelector('#housing-price');
 const housingRoomFilter = document.querySelector('#housing-rooms');
@@ -82,7 +82,7 @@ const filterApartmentsByFeatures = (response) => {
 };
 
 const onFilterChange = (serverData) => {
-  mapFiltersForm.addEventListener('change', debounce(() => {
+  filterForm.addEventListener('change', debounce(() => {
     let response = serverData.slice(0, serverData.length);
     response = filterApartmentsByBuildingType(response);
     response = filterApartmentsByPrice(response);
@@ -96,13 +96,13 @@ const onFilterChange = (serverData) => {
   return serverData;
 };
 
-const onAdFormReset = (serverData) => {
-  mapFiltersForm.addEventListener('reset', () => {
+const onFilterFormReset = (serverData) => {
+  filterForm.addEventListener('reset', () => {
     const response = serverData.slice(0, serverData.length);
+    closePopup();
     removeMarkers();
     renderMapMarkers(response);
   })
-  return serverData;
 }
 
-export { onFilterChange, onAdFormReset };
+export { onFilterChange, onFilterFormReset };
