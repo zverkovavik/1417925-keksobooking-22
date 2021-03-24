@@ -1,12 +1,10 @@
-import { onFilterChange } from './filter.js';
-import { showAlert } from './utils.js';
-import { renderMapMarkers } from './map.js';
+import { onAdFormReset, onFilterChange } from './filter.js';
 
 const ERROR_GET_DATA_MESSAGE = 'Не удалось загрузить похожие объявления!';
 const GET_REQUEST_URL = 'https://22.javascript.pages.academy/keksobooking/data';
 const POST_REQUEST_URL = 'https://22.javascript.pages.academy/keksobooking';
 
-const createGetRequest = (onSuccess, onError) => {
+const makeGetRequest = (onSuccess, onError) => {
   fetch(GET_REQUEST_URL)
     .then((response) => {
       if (response.ok) {
@@ -16,15 +14,15 @@ const createGetRequest = (onSuccess, onError) => {
         throw new Error(`${status} — ${statusText}`);
       }
     })
-    .then((response) => onSuccess(response))
-    .then((response) => onFilterChange(response))
+    .then(onSuccess)
+    .then(onFilterChange)
+    .then(onAdFormReset)
     .catch(() => {
       onError(ERROR_GET_DATA_MESSAGE);
     })
-}
-createGetRequest(renderMapMarkers, showAlert);
+};
 
-const createPostRequest = (data, onSuccess, onError) => {
+const makePostRequest = (data, onSuccess, onError) => {
   fetch(
     POST_REQUEST_URL,
     {
@@ -42,4 +40,4 @@ const createPostRequest = (data, onSuccess, onError) => {
     })
 };
 
-export { createGetRequest, createPostRequest };
+export { makeGetRequest, makePostRequest };

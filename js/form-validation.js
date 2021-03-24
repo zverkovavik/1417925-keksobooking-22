@@ -6,6 +6,7 @@ const checkOutTime = document.querySelector('#timeout');
 const titleAd = document.querySelector('#title');
 const roomNumber = document.querySelector('#room_number');
 const guestsNumber = document.querySelector('#capacity');
+const availableGuestCount = guestsNumber.children;
 const BuildingType = {
   FLAT: 'flat',
   BUNGALOW: 'bungalow',
@@ -25,19 +26,13 @@ const RoomQuantity = {
   TWO: '2',
   THREE: '3',
   HUNDRED: '100',
-}
+};
 
-const availableGuestCount = guestsNumber.children;
-
-housingType.addEventListener('change', () => {
+const setMinimalPriceOnBuildingType = () => {
   switch (housingType.value) {
     case BuildingType.BUNGALOW:
       apartmentPrice.setAttribute('min', BuildingMinimalPrice.BUNGALOW);
       apartmentPrice.setAttribute('placeholder', BuildingMinimalPrice.BUNGALOW);
-      break;
-    case BuildingType.FLAT:
-      apartmentPrice.setAttribute('min', BuildingMinimalPrice.FLAT);
-      apartmentPrice.setAttribute('placeholder', BuildingMinimalPrice.FLAT);
       break;
     case BuildingType.HOUSE:
       apartmentPrice.setAttribute('min', BuildingMinimalPrice.HOUSE);
@@ -47,7 +42,14 @@ housingType.addEventListener('change', () => {
       apartmentPrice.setAttribute('min', BuildingMinimalPrice.PALACE);
       apartmentPrice.setAttribute('placeholder', BuildingMinimalPrice.PALACE);
       break;
+    default:
+      apartmentPrice.setAttribute('min', BuildingMinimalPrice.FLAT);
+      apartmentPrice.setAttribute('placeholder', BuildingMinimalPrice.FLAT);
   }
+};
+
+housingType.addEventListener('change', () => {
+  setMinimalPriceOnBuildingType();
 });
 
 timeForm.addEventListener('change', (evt) => {
@@ -81,38 +83,38 @@ apartmentPrice.addEventListener('input', () => {
 
 const synchronizeRoomAndGuestNumber = () => {
   switch (roomNumber.value) {
-    case RoomQuantity.ONE:
-      for (let i = 0; i < availableGuestCount.length; i++) {
-        availableGuestCount[i].setAttribute('disabled', 'disabled');
-      }
-      availableGuestCount[availableGuestCount.length - 2].removeAttribute('disabled');
-      availableGuestCount[availableGuestCount.length - 2].setAttribute('selected', 'selected');
-      break;
     case RoomQuantity.HUNDRED:
-      for (let i = 0; i < availableGuestCount.length; i++) {
-        availableGuestCount[i].setAttribute('disabled', 'disabled');
+      for (let element of availableGuestCount) {
+        if (Number(element.value)) {
+          element.setAttribute('disabled', 'disabled');
+        } else {
+          element.removeAttribute('disabled');
+          element.setAttribute('selected', 'selected');
+        }
       }
-      availableGuestCount[availableGuestCount.length - 1].removeAttribute('disabled');
-      availableGuestCount[availableGuestCount.length - 1].setAttribute('selected', 'selected');
       break;
-    case RoomQuantity.TWO:
-      for (let i = 1; i <= roomNumber.value; i++) {
-        availableGuestCount[i].removeAttribute('disabled');
+    default:
+      for (let element of availableGuestCount) {
+        element.removeAttribute('selected');
+        if (!Number(element.value) || element.value > roomNumber.value) {
+          element.setAttribute('disabled', 'disabled');
+        } else {
+          element.removeAttribute('disabled');
+          if (element.value === roomNumber.value) {
+            element.setAttribute('selected', 'selected');
+          }
+        }
       }
-      availableGuestCount[0].setAttribute('disabled', 'disabled');
-      availableGuestCount[availableGuestCount.length - 1].setAttribute('disabled', 'disabled');
-      break;
-    case RoomQuantity.THREE:
-      for (let i = 0; i < roomNumber.value; i++) {
-        availableGuestCount[i].removeAttribute('disabled');
-      }
-      availableGuestCount[availableGuestCount.length - 1].setAttribute('disabled', 'disabled');
   }
-}
+};
+
 document.addEventListener('DOMContentLoaded', () => {
   synchronizeRoomAndGuestNumber();
-})
+  setMinimalPriceOnBuildingType();
+});
 
-roomNumber.addEventListener('click', () => {
+roomNumber.addEventListener('change', () => {
   synchronizeRoomAndGuestNumber();
 });
+
+export { synchronizeRoomAndGuestNumber, setMinimalPriceOnBuildingType };

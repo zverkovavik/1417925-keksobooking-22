@@ -74,11 +74,11 @@ const renderMapMarkers = (serverData) => {
     );
   });
   return serverData;
-}
+};
 
 const closePopup = () => {
   map.closePopup();
-}
+};
 
 const removeMarkers = () => {
   map.eachLayer((layer) => {
@@ -87,13 +87,14 @@ const removeMarkers = () => {
     }
     mainMarker.addTo(map);
   })
-}
+};
 
 const resetMainPinPosition = () => {
   mainMarker.setLatLng({
     lat: Coordinate.DEFAULT_LATITUDE_MAIN_MARKER,
     lng: Coordinate.DEFAULT_LONGITUDE_MAIN_MARKER,
   });
-}
+};
+
 export { resetMainPinPosition, renderMapMarkers, closePopup, removeMarkers };
 
