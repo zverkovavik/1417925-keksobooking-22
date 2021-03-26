@@ -28,7 +28,7 @@ L.tileLayer(
   }).addTo(map);
 
 const mainIcon = L.icon({
-  iconUrl: '../img/main-pin.svg',
+  iconUrl: './img/main-pin.svg',
   iconSize: [40, 40],
   iconAnchor: [20, 40],
 });
@@ -53,7 +53,7 @@ const renderMapMarkers = (serverData) => {
   serverData.slice(0, APARTMENT_AD_COUNT).forEach((element) => {
     const {location: {lat, lng}} = element;
     const apartmentAddressIcon = L.icon({
-      iconUrl: '../img/pin.svg',
+      iconUrl: './img/pin.svg',
       iconSize: [34, 34],
       iconAnchor: [17, 34],
     });
