@@ -7,7 +7,7 @@ const housingPriceFilter = document.querySelector('#housing-price');
 const housingRoomFilter = document.querySelector('#housing-rooms');
 const housingGuestFilter = document.querySelector('#housing-guests');
 const housingFeatures = document.querySelector('#housing-features');
-
+const FILTER_DELAY = 500;
 const buildingTypes = [
   'palace',
   'flat',
@@ -92,7 +92,7 @@ const onFilterChange = (serverData) => {
     closePopup();
     removeMarkers();
     renderMapMarkers(response);
-  }));
+  }, FILTER_DELAY));
   return serverData;
 };
 
