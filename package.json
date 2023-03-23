@@ -14,7 +14,7 @@
     "browser-sync": "2.27.11",
     "eslint": "8.30.0",
     "eslint-config-htmlacademy": "8.0.0",
-    "webpack": "5.75.0",
+    "webpack": "5.76.3",
     "webpack-cli": "^5.0.1"
   },
   "license": "MIT",
